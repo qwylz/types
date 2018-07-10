@@ -9,6 +9,8 @@ type RancherKubernetesEngineConfig struct {
 	Network NetworkConfig `yaml:"network" json:"network,omitempty"`
 	// Authentication configuration used in the cluster (default: x509)
 	Authentication AuthnConfig `yaml:"authentication" json:"authentication,omitempty"`
+	// CA and Certificate configuration for the cluster
+	PKI RKEPkiConfig `yaml:"pki" json:"pki,omitempty"`
 	// YAML manifest for user provided addons to be deployed on the cluster
 	Addons string `yaml:"addons" json:"addons,omitempty"`
 	// List of urls or paths for addons
@@ -551,4 +553,21 @@ type AzureCloudProvider struct {
 
 // AWSCloudProvider options
 type AWSCloudProvider struct {
+}
+
+type RKEPkiConfig struct {
+	// CA configuration
+	CA RKEPkiCaConfig `yaml:"ca" json:"ca,omitempty"`
+	// Configuration for all other certificates
+	Certs RKEPkiCertsConfig `yaml:"certs" json:"certs,omitempty"`
+}
+
+type RKEPkiCaConfig struct {
+	// How many days the CA certificate should be valid
+	ValidDays int `yaml:"valid_days" json:"validDays,omitempty"`
+}
+
+type RKEPkiCertsConfig struct {
+	// How many days all non-CA certificates should be valid
+	ValidDays int `yaml:"valid_days" json:"validDays,omitempty"`
 }
